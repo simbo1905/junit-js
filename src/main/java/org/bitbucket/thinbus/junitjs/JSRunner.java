@@ -89,11 +89,6 @@ public class JSRunner extends Runner implements Filterable, Sortable  {
 		engine.eval(IOUtils.toString(JSRunner.class.getResource("/JUnitJSUtils.js")));
 	}
 
-	public static void main(String[] args){
-		URL x = JSRunner.class.getResource("/JUnitJSUtils.js");
-		System.out.println("JUnitJSUtils: "+x);
-	}
-
 	public static class Loader {
 		
 		private final ScriptEngine rhino;

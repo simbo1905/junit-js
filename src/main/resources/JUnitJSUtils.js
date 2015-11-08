@@ -2,13 +2,14 @@ var assert = Packages.org.junit.Assert;
 var jsAssert = {};
 var TestCase = Packages.org.bitbucket.thinbus.junitjs.TestCase;
 
-
 jsAssert.assertIntegerEquals = function(a, b) {
 	if (a === b) return;
 	
 	
 	throw new Packages.org.junit.ComparisonFailure("Expected <" + a + "> but was <" + b + ">", a, b);
 }
+
+jsAssert.assertEqualNoCoercion = jsAssert.assertIntegerEquals
 
 var nashornDetector = {
 	__noSuchMethod__:  function(name, arg0, arg1) {

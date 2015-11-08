@@ -23,7 +23,7 @@ tests({
 	},
 	
 	integerComparison : function() {
-		jsAssert.assertIntegerEquals(4, 4);
+		jsAssert.assertEqualNoCoercion(4, 4);
 	}
 	/*
 	,
