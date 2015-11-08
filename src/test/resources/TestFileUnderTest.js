@@ -1,4 +1,3 @@
-load("src/main/resources/JUnitJSUtils.js");
 load("src/main/java/org/bitbucket/thinbus/junitjs/examples/FileUnderTest.js");
 
 var stub = newStub();

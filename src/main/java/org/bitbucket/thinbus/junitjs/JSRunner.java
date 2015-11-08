@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +73,7 @@ public class JSRunner extends Runner implements Filterable, Sortable  {
 		
 		try {
 			ScriptEngine engine = getBestJavaScriptEngine();
+			loadTestUtilities(engine);
 			List<TestClass> testClasses = new ArrayList<TestClass>();
 			for (String name : testNames) {
 				testClasses.add(new TestClass(name, load(engine, name)));
@@ -84,7 +86,12 @@ public class JSRunner extends Runner implements Filterable, Sortable  {
 	}
 
 	private void loadTestUtilities(ScriptEngine engine) throws ScriptException,IOException {
-		engine.eval(IOUtils.toString(JSRunner.class.getResource("JUnitJSUtils.js")));
+		engine.eval(IOUtils.toString(JSRunner.class.getResource("/JUnitJSUtils.js")));
+	}
+
+	public static void main(String[] args){
+		URL x = JSRunner.class.getResource("/JUnitJSUtils.js");
+		System.out.println("JUnitJSUtils: "+x);
 	}
 
 	public static class Loader {

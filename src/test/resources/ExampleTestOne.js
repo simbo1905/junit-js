@@ -1,4 +1,3 @@
-load("src/main/resources/JUnitJSUtils.js");
 
 tests({
 	thisTestShouldPass : function() {
