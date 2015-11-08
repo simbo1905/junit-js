@@ -46,9 +46,11 @@ public class ExampleTestSuite {
 
 In the javascript test files: 
 
-
 ```
 #!javascript
+
+// load the scripts you want to test
+load("src/main/webapp/js/amaze-balls.js");
 
 tests({
 	// org.junit.Assert is imported by default
@@ -78,4 +80,4 @@ tests({
 });
 ```
 
-There is also a stub function which records whatever methods you invoke up it. This allows you to pass a stub to some object you are testing then confirm what method invocations were made on the stub see `TestFileUnderTest.js`.
+Note that the file "JUnitJSUtils.js" is loaded out of the classpath into each test script context. This defines a `jsAssert.assertEqualNoCoercion` and `jsAssert.assertEqualCoercion` shown above. There is also a `newStub()` function that creates function which records whatever methods you invoke up it and their parameters see `TestFileUnderTest.js`.
