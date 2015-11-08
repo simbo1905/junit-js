@@ -13,7 +13,6 @@ Here is a picture of it in action running the Thinbus SRP crypogrophy tests:
 ## Maven Dependency
 
 ```
-	<!-- Thinbus SRP -->
 	<dependency>
 		<groupId>org.bitbucket.thinbus</groupId>
 		<artifactId>junit-js</artifactId>
@@ -79,4 +78,4 @@ tests({
 });
 ```
 
-There is also a stub function which records whatever methods you invoke up it. This allows you to pass a stub to some object you are testing then confirm what method invocations were made on the stub see `TestFileUnderTest.js`. 
+There is also a stub function which records whatever methods you invoke up it. This allows you to pass a stub to some object you are testing then confirm what method invocations were made on the stub see `TestFileUnderTest.js`.
