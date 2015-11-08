@@ -5,7 +5,7 @@ underTest.collaborator = stub;
 
 tests({
 	returnsFour_ShouldReturnFour: function() {
-		jsAssert.assertIntegerEquals(4, underTest.returnsFour());
+		jsAssert.assertEqualNoCoercion(4, underTest.returnsFour());
 	},
 
 	/*

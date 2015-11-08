@@ -11,6 +11,13 @@ jsAssert.assertIntegerEquals = function(a, b) {
 
 jsAssert.assertEqualNoCoercion = jsAssert.assertIntegerEquals
 
+jsAssert.assertEqualCoercion = function(a, b) {
+	if (a == b) return;
+
+
+	throw new Packages.org.junit.ComparisonFailure("Expected <" + a + "> but was <" + b + ">", a, b);
+}
+
 var nashornDetector = {
 	__noSuchMethod__:  function(name, arg0, arg1) {
 		return typeof arg1 != "undefined";
