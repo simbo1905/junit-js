@@ -14,6 +14,26 @@
             <url>http://opensource.org/licenses/MIT</url>
         </license>
     </licenses>
+    <developers>
+        <developer>
+            <name>Benji Weber</name>
+            <email>hello at benjiweber dot com</email>
+            <organization>N/A</organization>
+            <organizationUrl>http://benjiweber.co.uk/</organizationUrl>
+        </developer>
+        <developer>
+            <name>Simon Massey</name>
+            <email>simon_massey@hotmail.com</email>
+            <organization>spouse</organization>
+            <organizationUrl>https://bitbucket.org/simon_massey</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:https://simon_massey@bitbucket.org/thinbus/junit-js.git</connection>
+        <developerConnection>scm:git@bitbucket.org:thinbus/junit-js.git</developerConnection>
+        <url>https://bitbucket.org/thinbus/junit-js</url>
+        <tag>1.0.0</tag>
+    </scm>
     <properties>
         <junit.version>4.11</junit.version>
         <commons-io.version>2.4</commons-io.version>
@@ -86,7 +106,7 @@
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
         </plugins>
