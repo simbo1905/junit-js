@@ -84,7 +84,7 @@ public class JSRunner extends Runner implements Filterable, Sortable  {
 	}
 
 	private void loadTestUtilities(ScriptEngine engine) throws ScriptException,IOException {
-		engine.eval(IOUtils.toString(JSRunner.class.getResource("TestUtils.js")));
+		engine.eval(IOUtils.toString(JSRunner.class.getResource("JUnitJSUtils.js")));
 	}
 
 	public static class Loader {

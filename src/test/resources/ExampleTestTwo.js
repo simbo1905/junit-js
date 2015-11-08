@@ -1,4 +1,4 @@
-load("src/test/resources/TestUtils.js");
+load("src/main/resources/JUnitJSUtils.js");
 
 tests({
 	helloWorld : function() {
