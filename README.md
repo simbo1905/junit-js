@@ -1,12 +1,82 @@
-# JUnit-JS :: JUnit Runner for Javascript Tests using Nashorn or Rhino
+# JUnit-JS :: JUnit Runner for Javascript Tests using Nashorn
 
 Copyright (c) 2000 - 2014 Benji Weber
 
-JUnit Runner for Javascript Tests using Nashorn or Rhino
+Copyright (c) 2015 Simon
 
-Note that the tests which should fail are commented out; this lets you get a build where you can set breakpoints to see 
-what is going on. It will also let the maven build pass to be able to deploy this project.
+This is a fork of https://github.com/benjiman/junit-js to get it up onto maven central. This version will only be tested on JDK1.8 as the Nashorn is 10x faster than Rhino in testing the Java cryptography of [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js). 
 
-Test suites go under src/test/java and they name test scripts which go into src/test/resources.
+Here is a picture of it in action running the Thinbus SRP crypogrophy tests: 
 
-See http://benjiweber.co.uk/blog/2013/01/27/javascript-tests-with-junit/
+![Thinbus SRP JUnitJS](http://simon_massey.bitbucket.org/thinbus/junit-js.png "Thinbus SRP JUnitJS)
+
+## Maven Dependency
+
+```
+	<!-- Thinbus SRP -->
+	<dependency>
+		<groupId>org.bitbucket.thinbus</groupId>
+		<artifactId>junit-js</artifactId>
+		<version>1.0.0</version>
+	</dependency>
+```
+
+## Using
+
+See the example tests in this repo or better yet take a look at the sophisticated tests over at [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js). A quick outline is to create an empty test suite with annotations of the javascript test files which are to be run: 
+
+
+```
+#!java
+
+import org.bitbucket.thinbus.junitjs.JSRunner;
+import org.bitbucket.thinbus.junitjs.Tests;
+import org.junit.runner.RunWith;
+
+@Tests({
+	"ExampleTestOne.js",
+	"ExampleTestTwo.js",
+	"TestFileUnderTest.js"
+})
+@RunWith(JSRunner.class)
+public class ExampleTestSuite {
+	
+}
+
+```
+
+In the javascript test files: 
+
+
+```
+#!javascript
+
+tests({
+	// org.junit.Assert is imported by default
+	thisTestShouldPass : function() {
+		console.log("One == One");
+		assert.assertEquals("One","One");
+	},
+	/*
+	thisTestShouldFail : function() {
+		console.log("Running a failing test");
+		assert.fail();
+	},
+        */
+	// this equals works as no implicit conversions involved 
+	objectEquality : function() {
+		var a = { foo: 'bar', bar: 'baz' };
+		var b = a;
+		assert.assertEquals(a, b);
+	},
+	// this methods use javascript '===' and '==' respectively
+	javascriptComparison : function() {
+		// no implicit conversion
+		jsAssert.assertEqualNoCoercion(4, 4);
+		// this works because of javascript implicit conversion
+		jsAssert.assertEqualCoercion("4", 4);
+	}
+});
+```
+
+There is also a stub function which records whatever methods you invoke up it. This allows you to pass a stub to some object you are testing then confirm what method invocations were made on the stub see `TestFileUnderTest.js`. 
