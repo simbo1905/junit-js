@@ -26,7 +26,12 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 
 public class JSRunner extends Runner implements Filterable, Sortable  {
-	
+
+	static {
+		// https://medium.com/graalvm/oracle-graalvm-announces-support-for-nashorn-migration-c04810d75c1f
+		System.setProperty("polyglot.js.nashorn-compat", "true");
+	}
+
 	private List<TestClass> tests;
 	private final Class<?> cls;
 
@@ -107,6 +112,11 @@ public class JSRunner extends Runner implements Filterable, Sortable  {
 	
 	private ScriptEngine getBestJavaScriptEngine() throws ScriptException {
 		ScriptEngineManager factory = new ScriptEngineManager();
+
+		ScriptEngine graal = factory.getEngineByName("graal.js");
+
+		if ( graal != null ) return graal;
+
 		ScriptEngine nashorn = factory.getEngineByName("nashorn");
 		
 		if (nashorn != null) return nashorn;

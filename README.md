@@ -2,13 +2,15 @@
 
 Copyright (c) 2000 - 2014 Benji Weber
 
-Copyright (c) 2015 Simon
+Copyright (c) 2015, 2019 Simon Massey
 
-This is a fork of https://github.com/benjiman/junit-js to get it up onto maven central. This version will only be tested on JDK1.8 as the Nashorn is 10x faster than Rhino in testing the Java cryptography of [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js). 
+This is a fork of https://github.com/benjiman/junit-js to get it up onto maven central.
 
-Here is a picture of it in action running the Thinbus SRP crypogrophy tests: 
+This original version was tested on JDK1.8 as the Nashorn is 10x faster than Rhino in testing the Java cryptography of [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js).
 
-![Thinbus SRP JUnitJS](http://simon_massey.bitbucket.org/thinbus/junit-js.png "Thinbus SRP JUnitJS)
+Nashorn is now deprecated and will be removed from the JDK. OpenJDK supports a faster polygot compiler called GrallVM.
+
+The master branch will now support OpenJDK 11.
 
 ## Maven Dependency
 

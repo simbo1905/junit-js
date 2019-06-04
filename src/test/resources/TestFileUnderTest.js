@@ -8,7 +8,7 @@ tests({
 		jsAssert.assertEqualNoCoercion(4, underTest.returnsFour());
 	},
 
-	/*
+
 	doesSomethingImportant_ThisTestShouldFail: function() {
 		underTest.doesSomethingImportant();
 		
@@ -17,7 +17,7 @@ tests({
 			args: ['wrong', 'args']
 		});
 	},
-        */
+
 	doesSomethingImportant_ShouldDoSomethingImportant: function() {
 		underTest.doesSomethingImportant();
 		
