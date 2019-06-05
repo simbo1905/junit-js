@@ -8,7 +8,7 @@ This is a fork of https://github.com/benjiman/junit-js to get it up onto maven c
 
 Early versions were tested on JDK1.8 as the Nashorn is 10x faster than Rhino in testing the JavaScript cryptography of [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js).
 
-Nashorn is now deprecated and will be removed from the JDK. OpenJDK supports a faster polygot compiler called GraalVM. From release 1.1.0 the code now attempts to use GraalVM, then falls back to Nashorn, then falls back to Rhino.
+Nashorn is now deprecated and will be removed from the JDK. OpenJDK supports a faster polygot compiler called GraalVM that has a scripting runtime known as "graal.js". From release 1.1.0 the code now attempts to use graal.js, then falls back to Nashorn, then falls back to Rhino.
 
 Note that the Graal scripting engine on OpenJDK 11 needs openjdk to be configured to use Graal as its compiler else it will be slower than Nashorn. I found this easy to do on the commandline but not easy to do in an IDE. See the following articles:
 
