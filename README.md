@@ -6,7 +6,7 @@ Copyright (c) 2015, 2019 Simon Massey
 
 This is a fork of https://github.com/benjiman/junit-js to get it up onto maven central.
 
-This original version was tested on JDK1.8 as the Nashorn is 10x faster than Rhino in testing the Java cryptography of [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js).
+This original version was tested on JDK1.8 as the Nashorn is 10x faster than Rhino in testing the JavaScript cryptography of [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js).
 
 Nashorn is now deprecated and will be removed from the JDK. OpenJDK supports a faster polygot compiler called GraalVM. The master code now attempts to use GraalVM, then falls back to Nashorn, then falls back to Rhino.
 
@@ -26,13 +26,13 @@ When Nashorn is finally removed and GraalVM is more widely in use I may refactor
 	<dependency>
 		<groupId>org.bitbucket.thinbus</groupId>
 		<artifactId>junit-js</artifactId>
-		<version>1.0.0</version>
+		<version>1.1.0</version>
 	</dependency>
 ```
 
 ## Using
 
-See the example tests in this repo or better yet take a look at the sophisticated tests over at [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js). A quick outline is to create an empty test suite with annotations of the javascript test files which are to be run: 
+See the example tests in this repo in `ExampleTestSuite` that deliberately have failing tests to show that tests can fail. So the build wont run them you have to run them manually (e.g., in your IDE). Better yet take a look at the sophisticated tests over at [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js). A quick outline is to create an empty test suite with annotations of the javascript test files which are to be run:
 
 
 ```
