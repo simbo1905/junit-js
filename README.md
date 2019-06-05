@@ -1,4 +1,4 @@
-# JUnit-JS :: JUnit Runner for Javascript Tests using Nashorn
+# JUnit-JS :: JUnit Runner for Javascript Tests using GraalVM or Nashorn
 
 Copyright (c) 2000 - 2014 Benji Weber
 
@@ -8,9 +8,17 @@ This is a fork of https://github.com/benjiman/junit-js to get it up onto maven c
 
 This original version was tested on JDK1.8 as the Nashorn is 10x faster than Rhino in testing the Java cryptography of [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js).
 
-Nashorn is now deprecated and will be removed from the JDK. OpenJDK supports a faster polygot compiler called GrallVM.
+Nashorn is now deprecated and will be removed from the JDK. OpenJDK supports a faster polygot compiler called GraalVM. The master code now attempts to use GraalVM, then falls back to Nashorn, then falls back to Rhino.
 
-The master branch will now support OpenJDK 11.
+Note that GraalVM on OpenJDK 11 needs openjdk to be configured to use GraalVM as its compiler to be fast else it will be slower than Nashorn. I found this easy to do on the commandline but not easy to do in an IDE. See the following articles:
+
+https://medium.com/graalvm/graalvms-javascript-engine-on-jdk11-with-high-performance-3e79f968a819
+
+https://medium.com/graalvm/oracle-graalvm-announces-support-for-nashorn-migration-c04810d75c1f
+
+Currently this project programmatically sets `-Dpolyglot.js.nashorn-compat=true` in a static initializer. That makes Graal use nashorn code load methods that are now seen as insecure. That is probably fine in test code but not in production code.
+
+When Nashorn is finally removed and GraalVM is more widely in use I may refactor the code so that it doesn't need `nashorn-compat` to be set.
 
 ## Maven Dependency
 
