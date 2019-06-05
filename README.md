@@ -16,7 +16,7 @@ https://medium.com/graalvm/graalvms-javascript-engine-on-jdk11-with-high-perform
 
 https://medium.com/graalvm/oracle-graalvm-announces-support-for-nashorn-migration-c04810d75c1f
 
-Currently this project programmatically sets `-Dpolyglot.js.nashorn-compat=true` in a static initializer. That makes Graal use nashorn code load methods that are now seen as insecure. That is probably fine in test code but not in production code.
+Currently this project programmatically sets `-Dpolyglot.js.nashorn-compat=true` in a static initializer. That allows Graal to honour Nashorn code load methods that are now seen as insecure. That is probably fine in test code but not in production code.
 
 When Nashorn is finally removed and GraalVM is more widely in use I may refactor the code so that it doesn't need `nashorn-compat` to be set.
 
