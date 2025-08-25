@@ -3,17 +3,12 @@
 Copyright (c) 2000 - 2014 Benji Weber  
 Copyright (c) 2015, 2019, 2025 Simon Massey
 
-This is a fork of https://github.com/benjiman/junit-js to get it up onto maven central.
-
-**Version 2.0+ requires Java 21** and uses GraalVM's Polyglot API for optimal JavaScript execution performance. The library automatically detects and uses the best available JavaScript engine: GraalVM > Nashorn > Rhino.
-
-Early versions supported JDK 8 with Nashorn, which provided 10x performance improvements over Rhino for JavaScript cryptography testing in [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js).
+This was originallly a fork of https://github.com/benjiman/junit-js to get it up onto maven central. Yet that was based on Rhino and Nashorn on Java 8. It has now been upgraded to Java 21 on GraalVM to that JavaScript or EMCAScript can be tested against Java. 
 
 ## Breaking Changes in 2.0.0
 
 - **Java 21 minimum requirement** - leverages modern JVM features and GraalVM Polyglot API
 - **Enhanced compiler warnings** - all warnings now treated as errors for improved code quality
-- **Optimized JavaScript engine selection** - prioritizes GraalVM Polyglot for best performance
 
 ## Maven Dependency
 
