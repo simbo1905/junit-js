@@ -20,17 +20,18 @@ jobs:
         java-version: 21
         distribution: 'temurin'
         
-    - name: Build and verify JavaScript tests are running
+    - name: Build and verify both JUnit 4 JS tests and JUnit 5 Java tests are running
       shell: bash
       run: |
         set -euo pipefail
         
-        echo "Running mvn verify and checking JavaScript test execution..."
+        echo "Running mvn verify and checking both JUnit 4 JavaScript and JUnit 5 Java test execution..."
         
         # Run mvn verify and capture output (allow test failures for demo purposes)
         mvn verify 2>&1 | tee build.log || true
         
-        # Check that JavaScript console output appears (proves JS tests ran)
+        # Verify JUnit 4 JavaScript tests are running
+        echo "Checking JUnit 4 JavaScript tests..."
         if ! grep -q "One == One" build.log; then
           echo "ERROR: JavaScript test 'One == One' output not found - JS tests may not be running!"
           exit 1
@@ -41,13 +42,38 @@ jobs:
           exit 1
         fi
         
-        # Check that we ran the expected number of tests (10)
+        # Check that we ran the expected number of JavaScript tests (10)
         if ! grep -q "Tests run: 10" build.log; then
-          echo "ERROR: Expected 'Tests run: 10' not found - wrong number of tests executed!"
+          echo "ERROR: Expected 'Tests run: 10' not found - wrong number of JavaScript tests executed!"
           grep "Tests run:" build.log || echo "No 'Tests run:' found at all"
           exit 1
         fi
         
-        echo "✅ SUCCESS: JavaScript tests are running correctly"
-        echo "✅ Found expected console output: 'One == One', 'Hello World'"  
-        echo "✅ Found expected test count: 'Tests run: 10'"
+        # Verify JUnit 5 Java tests are running
+        echo "Checking JUnit 5 Java tests..."
+        if ! grep -q "Running JUnit 5" build.log; then
+          echo "ERROR: JUnit 5 test output not found - JUnit 5 tests may not be running!"
+          exit 1
+        fi
+        
+        if ! grep -q "JUnit 5 and junit-js framework are fully compatible" build.log; then
+          echo "ERROR: JUnit 5 compatibility verification not found!"
+          exit 1
+        fi
+        
+        # Verify both engines are detected and running
+        if ! grep -q "JUnit Jupiter" build.log; then
+          echo "ERROR: JUnit Jupiter engine not detected!"
+          exit 1
+        fi
+        
+        if ! grep -q "JUnit Vintage" build.log; then
+          echo "ERROR: JUnit Vintage engine not detected!"
+          exit 1
+        fi
+        
+        echo "✅ SUCCESS: Both JUnit 4 JavaScript and JUnit 5 Java tests are running correctly"
+        echo "✅ Found expected JavaScript console output: 'One == One', 'Hello World'"  
+        echo "✅ Found expected JavaScript test count: 'Tests run: 10'"
+        echo "✅ Found expected JUnit 5 test execution and compatibility verification"
+        echo "✅ Both JUnit Jupiter and JUnit Vintage engines are active"

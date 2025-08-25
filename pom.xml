@@ -37,15 +37,41 @@
     <properties>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>4.13.2</junit.version>
+        <junit4.version>4.13.2</junit4.version>
+        <junit5.version>5.10.0</junit5.version>
         <graalvm.version>24.1.0</graalvm.version>
         <gpg.skip>true</gpg.skip>
     </properties>
     <dependencies>
+        <!-- JUnit 4 for existing tests and junit-js framework -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <version>${junit4.version}</version>
+        </dependency>
+        
+        <!-- JUnit 5 API for new tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- JUnit 5 engine for new tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- JUnit Vintage engine for JUnit 4 tests -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
         </dependency>
         <!-- GraalVM Polyglot Dependencies -->
         <dependency>
@@ -86,7 +112,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.5</version>
                 <configuration>
                     <systemPropertyVariables>
                         <polyglot.engine.WarnInterpreterOnly>false</polyglot.engine.WarnInterpreterOnly>
