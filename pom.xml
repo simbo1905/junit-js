@@ -40,7 +40,7 @@
         <junit4.version>4.13.2</junit4.version>
         <junit5.version>5.10.0</junit5.version>
         <graalvm.version>24.1.0</graalvm.version>
-        <gpg.skip>true</gpg.skip>
+        <gpg.skip>false</gpg.skip>
     </properties>
     <dependencies>
         <!-- JUnit 4 for existing tests and junit-js framework -->
@@ -169,6 +169,7 @@
                 </executions>
                 <configuration>
                     <skip>${gpg.skip}</skip>
+                    <keyname>8098731549E2457C2873A8D3B1973C29239EC912</keyname>
                     <gpgArguments>
                         <arg>--pinentry-mode</arg>
                         <arg>loopback</arg>
