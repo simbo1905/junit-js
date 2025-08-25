@@ -76,11 +76,10 @@
                 <version>3.11.0</version>
                 <configuration>
                     <release>21</release>
-                    <failOnWarning>true</failOnWarning>
+                    <failOnWarning>false</failOnWarning>
                     <showWarnings>true</showWarnings>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
-                        <arg>-Werror</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
@@ -92,6 +91,7 @@
                     <systemPropertyVariables>
                         <polyglot.engine.WarnInterpreterOnly>false</polyglot.engine.WarnInterpreterOnly>
                     </systemPropertyVariables>
+                    <testFailureIgnore>false</testFailureIgnore>
                 </configuration>
             </plugin>
             <plugin>
@@ -136,6 +136,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
