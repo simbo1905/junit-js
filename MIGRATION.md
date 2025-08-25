@@ -17,13 +17,15 @@ The OSSRH service will reach end-of-life on June 30th, 2025. This project needs 
 
 ### 2. Generate Publishing Token
 - In Central Portal, go to "View Account" → "Generate User Token"
-- Save the username and password token for Maven authentication
-- Update `.env` file with new credentials:
+- Add the server configuration to your `~/.m2/settings.xml`:
+  ```xml
+  <server>
+      <id>central</id>
+      <username>your_token_username</username>
+      <password>your_token_password</password>
+  </server>
   ```
-  CENTRAL_USERNAME=your_token_username
-  CENTRAL_PASSWORD=your_token_password
-  GPG_PASSPHRASE=Wha7passingbells?
-  ```
+- **Important**: Use `<id>central</id>` (not `${server}`) to match the pom.xml configuration
 
 ### 3. Namespace Verification (if needed)
 If you don't have access to `org.bitbucket.thinbus`:
