@@ -24,12 +24,19 @@ import org.junit.runner.manipulation.Sorter;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 
+/**
+ * JUnit 4 test runner for JavaScript tests using GraalVM.
+ */
 public class JSRunner extends Runner implements Filterable, Sortable  {
 
 	private List<TestClass> tests;
 	private final Class<?> cls;
 	private Context context;
 
+	/**
+	 * Creates a new JSRunner for the given test class.
+	 * @param cls the test class containing JavaScript test files
+	 */
 	public JSRunner(Class<?> cls) {
 		this.cls = cls;
 		this.context = Context.newBuilder("js")
@@ -99,14 +106,25 @@ public class JSRunner extends Runner implements Filterable, Sortable  {
 		}
 	}
 
+	/**
+	 * Utility class for loading JavaScript test files.
+	 */
 	public static class Loader {
 		
 		private final Context context;
 
+		/**
+		 * Creates a new Loader with the given JavaScript context.
+		 * @param context the GraalVM JavaScript context
+		 */
 		public Loader(Context context) {
 			this.context = context;
 		}
 		
+		/**
+		 * Loads a JavaScript test file from the classpath.
+		 * @param filename the name of the JavaScript file to load
+		 */
 		public void load(String filename) {
 			try {
 				Path filePath = Paths.get(filename);
