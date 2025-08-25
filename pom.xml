@@ -41,6 +41,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.13.2</junit.version>
         <graalvm.version>24.1.0</graalvm.version>
+        <gpg.skip>true</gpg.skip>
     </properties>
     <dependencies>
         <dependency>
@@ -76,10 +77,11 @@
                 <version>3.11.0</version>
                 <configuration>
                     <release>21</release>
-                    <failOnWarning>false</failOnWarning>
+                    <failOnWarning>true</failOnWarning>
                     <showWarnings>true</showWarnings>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
+                        <arg>-Werror</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
@@ -137,7 +139,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <skip>true</skip>
+                    <skip>${gpg.skip}</skip>
                 </configuration>
             </plugin>
             <plugin>
