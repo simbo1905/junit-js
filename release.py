@@ -12,6 +12,12 @@ import sys
 from pathlib import Path
 import argparse
 
+def mask_credential(value):
+    """Mask credential with asterisks matching length"""
+    if not value:
+        return ""
+    return '*' * len(value)
+
 def load_env():
     """Load environment variables from .env file"""
     env_file = Path('.env')
@@ -19,6 +25,10 @@ def load_env():
         print("❌ .env file not found. Please create it with your credentials.")
         print("Example .env content:")
         print("GPG_PASSPHRASE=your_gpg_passphrase")
+        print("# For Central Publishing Portal (new):")
+        print("CENTRAL_USERNAME=your_token_username") 
+        print("CENTRAL_PASSWORD=your_token_password")
+        print("# Legacy OSSRH (deprecated):")
         print("OSSRH_USERNAME=your_ossrh_username") 
         print("OSSRH_PASSWORD=your_ossrh_password")
         sys.exit(1)
@@ -97,11 +107,33 @@ def get_version():
         print("❌ Could not extract version from pom.xml")
         return None
 
+def check_central_access(env_vars):
+    """Check if we have Central Portal credentials"""
+    has_central = 'CENTRAL_USERNAME' in env_vars and 'CENTRAL_PASSWORD' in env_vars
+    has_ossrh = 'OSSRH_USERNAME' in env_vars and 'OSSRH_PASSWORD' in env_vars
+    
+    if has_central:
+        print("✅ Central Publishing Portal credentials found")
+        print(f"   Username: {env_vars['CENTRAL_USERNAME']}")
+        print(f"   Password: {mask_credential(env_vars['CENTRAL_PASSWORD'])}")
+        return 'central'
+    elif has_ossrh:
+        print("⚠️  Only legacy OSSRH credentials found")
+        print(f"   Username: {env_vars['OSSRH_USERNAME']}")
+        print(f"   Password: {mask_credential(env_vars['OSSRH_PASSWORD'])}")
+        print("   Migration to Central Portal required - see MIGRATION.md")
+        return 'ossrh'
+    else:
+        print("❌ No publishing credentials found")
+        return None
+
 def main():
     parser = argparse.ArgumentParser(description='Release junit-js to Maven Central')
     parser.add_argument('--step', choices=['test', 'tag', 'deploy', 'all'], default='all',
                        help='Run specific step or all steps')
+    parser.add_argument('--check-access', action='store_true', help='Check credential access method')
     parser.add_argument('--dry-run', action='store_true', help='Show commands without executing')
+    parser.add_argument('--force-ossrh', action='store_true', help='Force use of legacy OSSRH (deprecated)')
     
     args = parser.parse_args()
     
@@ -111,6 +143,24 @@ def main():
     # Load environment
     env_vars = load_env()
     print(f"✅ Loaded {len(env_vars)} environment variables from .env")
+    
+    # Show masked credentials for verification
+    if 'GPG_PASSPHRASE' in env_vars:
+        print(f"   GPG_PASSPHRASE: {mask_credential(env_vars['GPG_PASSPHRASE'])}")
+    
+    # Check access method
+    access_method = check_central_access(env_vars)
+    if not access_method:
+        print("Please update .env with publishing credentials - see MIGRATION.md")
+        sys.exit(1)
+    
+    # Handle check-access command
+    if args.check_access:
+        if access_method == 'central':
+            print("✅ Ready for Central Publishing Portal")
+        else:
+            print("⚠️  Migration required - see MIGRATION.md")
+        return
     
     # Check prerequisites
     if not check_prerequisites():
@@ -124,6 +174,15 @@ def main():
     
     if args.dry_run:
         print("\n🔍 DRY RUN MODE - Commands will be shown but not executed")
+    
+    # Determine deployment method
+    use_central = access_method == 'central' and not args.force_ossrh
+    if use_central:
+        print("🆕 Using Central Publishing Portal")
+    else:
+        print("⚠️  Using legacy OSSRH (deprecated)")
+        if access_method == 'ossrh':
+            print("   Consider migrating to Central Portal - see MIGRATION.md")
     
     # Step 1: Test build
     if args.step in ['test', 'all']:
@@ -197,16 +256,28 @@ def main():
         
         gpg_passphrase = env_vars.get('GPG_PASSPHRASE', '')
         
-        cmd = f'mvn deploy -Dgpg.skip=false -Dgpg.passphrase="{gpg_passphrase}" -Dgpg.pinentry-mode=loopback'
+        if use_central:
+            # Central Publishing Portal
+            cmd = f'mvn deploy -Dgpg.skip=false -Dgpg.passphrase="{gpg_passphrase}" -Dgpg.pinentry-mode=loopback'
+            display_cmd = f"mvn deploy -Dgpg.skip=false -Dgpg.passphrase={mask_credential(gpg_passphrase)} -Dgpg.pinentry-mode=loopback"
+        else:
+            # Legacy OSSRH (will likely fail)
+            cmd = f'mvn deploy -Dgpg.skip=false -Dgpg.passphrase="{gpg_passphrase}" -Dgpg.pinentry-mode=loopback'
+            display_cmd = f"mvn deploy -Dgpg.skip=false -Dgpg.passphrase={mask_credential(gpg_passphrase)} -Dgpg.pinentry-mode=loopback (LEGACY OSSRH)"
         
         if args.dry_run:
-            print(f"Would run: mvn deploy -Dgpg.skip=false -Dgpg.passphrase=*** -Dgpg.pinentry-mode=loopback")
+            print(f"Would run: {display_cmd}")
         else:
-            if not run_command(cmd, "Deploying to Maven Central"):
+            if not run_command(cmd, f"Deploying to {'Central Portal' if use_central else 'Maven Central (legacy)'}"):
                 print("❌ Deployment failed. Check the error messages above.")
-                print("Common issues:")
-                print("- 403 Forbidden: Check OSSRH credentials and namespace permissions")
-                print("- GPG signing errors: Check GPG passphrase and key setup")
+                if use_central:
+                    print("Common issues:")
+                    print("- Authentication: Check Central Portal token credentials")
+                    print("- Namespace: Verify access to org.bitbucket.thinbus")
+                    print("- GPG signing: Check GPG passphrase and key setup")
+                else:
+                    print("Legacy OSSRH is deprecated and may no longer work.")
+                    print("Please migrate to Central Portal - see MIGRATION.md")
                 sys.exit(1)
     
     # Create GitHub release
