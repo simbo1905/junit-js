@@ -1,93 +1,99 @@
-# JUnit-JS :: JUnit Runner for Javascript Tests using GraalVM or Nashorn
+# JUnit-JS :: JUnit Runner for Javascript Tests using GraalVM Polyglot
 
-Copyright (c) 2000 - 2014 Benji Weber
-
-Copyright (c) 2015, 2019 Simon Massey
+Copyright (c) 2000 - 2014 Benji Weber  
+Copyright (c) 2015, 2019, 2025 Simon Massey
 
 This is a fork of https://github.com/benjiman/junit-js to get it up onto maven central.
 
-Early versions were tested on JDK1.8 as the Nashorn is 10x faster than Rhino in testing the JavaScript cryptography of [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js).
+**Version 2.0+ requires Java 21** and uses GraalVM's Polyglot API for optimal JavaScript execution performance. The library automatically detects and uses the best available JavaScript engine: GraalVM > Nashorn > Rhino.
 
-Nashorn is now deprecated and will be removed from the JDK. OpenJDK supports a faster polygot compiler called GraalVM. From release 1.1.0 the code now attempts to use GraalVM, then falls back to Nashorn, then falls back to Rhino.
+Early versions supported JDK 8 with Nashorn, which provided 10x performance improvements over Rhino for JavaScript cryptography testing in [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js).
 
-Note that the Graal scripting engine on OpenJDK 11 needs openjdk to be configured to use Graal as its compiler else it will be slower than Nashorn. I found this easy to do on the commandline but not easy to do in an IDE. See the following articles:
+## Breaking Changes in 2.0.0
 
-https://medium.com/graalvm/graalvms-javascript-engine-on-jdk11-with-high-performance-3e79f968a819
-
-https://medium.com/graalvm/oracle-graalvm-announces-support-for-nashorn-migration-c04810d75c1f
-
-Currently this project programmatically sets `-Dpolyglot.js.nashorn-compat=true` in a static initializer. That allows Graal to honour Nashorn code load methods that are now seen as insecure. That is probably fine in test code but not in production code.
-
-When Nashorn is finally removed and GraalVM is more widely in use I may refactor the code so that it doesn't need `nashorn-compat` to be set.
+- **Java 21 minimum requirement** - leverages modern JVM features and GraalVM Polyglot API
+- **Enhanced compiler warnings** - all warnings now treated as errors for improved code quality
+- **Optimized JavaScript engine selection** - prioritizes GraalVM Polyglot for best performance
 
 ## Maven Dependency
 
+```xml
+<dependency>
+    <groupId>org.bitbucket.thinbus</groupId>
+    <artifactId>junit-js</artifactId>
+    <version>2.0.0</version>
+</dependency>
 ```
-	<dependency>
-		<groupId>org.bitbucket.thinbus</groupId>
-		<artifactId>junit-js</artifactId>
-		<version>1.1.0</version>
-	</dependency>
-```
+
+**Requirements:**
+- Java 21 or higher
+- Maven 3.6+ or Gradle 7+
 
 ## Using
 
-See the example tests in this repo in `ExampleTestSuite` that deliberately have failing tests to show that tests can fail. So the build wont run them you have to run them manually (e.g., in your IDE). Better yet take a look at the sophisticated tests over at [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js). A quick outline is to create an empty test suite with annotations of the javascript test files which are to be run:
+See the example tests in this repo in `ExampleTestSuite` that deliberately have failing tests to show that tests can fail. The build won't run them automatically - you have to run them manually (e.g., in your IDE). For more sophisticated examples, check out the tests at [thinbus-srp-js](https://bitbucket.org/simon_massey/thinbus-srp-js).
 
+Create a test suite with annotations listing the JavaScript test files to run:
 
-```
-#!java
-
+```java
 import org.bitbucket.thinbus.junitjs.JSRunner;
 import org.bitbucket.thinbus.junitjs.Tests;
 import org.junit.runner.RunWith;
 
 @Tests({
-	"ExampleTestOne.js",
-	"ExampleTestTwo.js",
-	"TestFileUnderTest.js"
+    "ExampleTestOne.js",
+    "ExampleTestTwo.js", 
+    "TestFileUnderTest.js"
 })
 @RunWith(JSRunner.class)
 public class ExampleTestSuite {
-	
+    
 }
-
 ```
 
-In the javascript test files: 
+In the JavaScript test files:
 
-```
-#!javascript
-
-// load the scripts you want to test
+```javascript
+// Load the scripts you want to test
 load("src/main/webapp/js/amaze-balls.js");
 
 tests({
-	// org.junit.Assert is imported by default
-	thisTestShouldPass : function() {
-		console.log("One == One");
-		assert.assertEquals("One","One");
-	},
-	/*
-	thisTestShouldFail : function() {
-		console.log("Running a failing test");
-		assert.fail();
-	},
-        */
-	// this equals works as no implicit conversions involved 
-	objectEquality : function() {
-		var a = { foo: 'bar', bar: 'baz' };
-		var b = a;
-		assert.assertEquals(a, b);
-	},
-	// this methods use javascript '===' and '==' respectively
-	javascriptComparison : function() {
-		// no implicit conversion
-		jsAssert.assertEqualNoCoercion(4, 4);
-		// this works because of javascript implicit conversion
-		jsAssert.assertEqualCoercion("4", 4);
-	}
+    // org.junit.Assert is imported by default
+    thisTestShouldPass: function() {
+        console.log("One == One");
+        assert.assertEquals("One", "One");
+    },
+    
+    /*
+    thisTestShouldFail: function() {
+        console.log("Running a failing test");
+        assert.fail();
+    },
+    */
+    
+    // Object equality works with no implicit conversions
+    objectEquality: function() {
+        var a = { foo: 'bar', bar: 'baz' };
+        var b = a;
+        assert.assertEquals(a, b);
+    },
+    
+    // JavaScript-specific comparison methods
+    javascriptComparison: function() {
+        // No implicit conversion (uses '===')
+        jsAssert.assertEqualNoCoercion(4, 4);
+        // Works with JavaScript implicit conversion (uses '==')
+        jsAssert.assertEqualCoercion("4", 4);
+    }
 });
 ```
 
-Note that the file "JUnitJSUtils.js" is loaded out of the classpath into each test script context. This defines a `jsAssert.assertEqualNoCoercion` and `jsAssert.assertEqualCoercion` shown above. There is also a `newStub()` function that creates function which records whatever methods you invoke up it and their parameters see `TestFileUnderTest.js`.
+## JavaScript Utilities
+
+The file `JUnitJSUtils.js` is automatically loaded into each test script context, providing:
+
+- `jsAssert.assertEqualNoCoercion()` - strict equality comparison using `===`
+- `jsAssert.assertEqualCoercion()` - loose equality comparison using `==`  
+- `newStub()` - creates mock functions that record method invocations and parameters
+
+See `TestFileUnderTest.js` for examples of using the stubbing functionality.

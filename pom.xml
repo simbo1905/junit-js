@@ -4,7 +4,7 @@
     <groupId>org.bitbucket.thinbus</groupId>
     <artifactId>junit-js</artifactId>
     <packaging>jar</packaging>
-    <version>1.1.0</version>
+    <version>2.0.0</version>
     <name>junit-js</name>
     <url>https://bitbucket.org/thinbus/junit-js</url>
     <description>Benji Weber's JUnit Runner for Javascript Tests using GraalVM, Nashorn or Rhino</description>
@@ -35,10 +35,12 @@
         <tag>1.0.0</tag>
     </scm>
     <properties>
-        <junit.version>4.11</junit.version>
-        <commons-io.version>2.4</commons-io.version>
-        <graalvm.version>19.0.0</graalvm.version>
-        <compiler.dir>${project.build.directory}/compiler</compiler.dir>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>4.13.2</junit.version>
+        <graalvm.version>24.1.0</graalvm.version>
     </properties>
     <dependencies>
         <dependency>
@@ -46,10 +48,17 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
         </dependency>
+        <!-- GraalVM Polyglot Dependencies -->
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons-io.version}</version>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>polyglot</artifactId>
+            <version>${graalvm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.graalvm.polyglot</groupId>
+            <artifactId>js</artifactId>
+            <version>${graalvm.version}</version>
+            <type>pom</type>
         </dependency>
     </dependencies>
     <distributionManagement>
@@ -58,155 +67,37 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-    <profiles>
-        <profile>
-            <id>jdk11</id>
-            <activation>
-                <jdk>11</jdk>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.graalvm.sdk</groupId>
-                    <artifactId>graal-sdk</artifactId>
-                    <version>${graalvm.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.js</groupId>
-                    <artifactId>js</artifactId>
-                    <version>${graalvm.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.js</groupId>
-                    <artifactId>js-scriptengine</artifactId>
-                    <version>${graalvm.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.tools</groupId>
-                    <artifactId>profiler</artifactId>
-                    <version>${graalvm.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.tools</groupId>
-                    <artifactId>chromeinspector</artifactId>
-                    <version>${graalvm.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.22.1</version>
-                        <configuration>
-                            <argLine>-XX:+UnlockExperimentalVMOptions -XX:+EnableJVMCI --module-path=${compiler.dir} --upgrade-module-path=${compiler.dir}/compiler.jar</argLine>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.10</version>
-                        <executions>
-                            <execution>
-                                <id>copy</id>
-                                <phase>process-test-classes</phase>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.graalvm.compiler</groupId>
-                                            <artifactId>compiler</artifactId>
-                                            <version>${graalvm.version}</version>
-                                            <type>jar</type>
-                                            <overWrite>true</overWrite>
-                                            <destFileName>compiler.jar</destFileName>
-                                        </artifactItem>
-                                        <artifactItem>
-                                            <groupId>org.graalvm.truffle</groupId>
-                                            <artifactId>truffle-api</artifactId>
-                                            <version>${graalvm.version}</version>
-                                            <type>jar</type>
-                                            <overWrite>true</overWrite>
-                                            <destFileName>truffle-api.jar</destFileName>
-                                        </artifactItem>
-                                        <artifactItem>
-                                            <groupId>org.graalvm.sdk</groupId>
-                                            <artifactId>graal-sdk</artifactId>
-                                            <version>${graalvm.version}</version>
-                                            <type>jar</type>
-                                            <overWrite>true</overWrite>
-                                            <destFileName>graal-sdk.jar</destFileName>
-                                        </artifactItem>
-                                    </artifactItems>
-                                    <outputDirectory>${compiler.dir}</outputDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>jdk8</id>
-            <activation>
-                <jdk>1.8</jdk>
-                <file>
-                    <missing>${java.home}/lib/truffle/truffle-api.jar</missing>
-                </file>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>org.graalvm.sdk</groupId>
-                    <artifactId>graal-sdk</artifactId>
-                    <version>${graalvm.version}</version>
-                    <scope>compile</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.js</groupId>
-                    <artifactId>js</artifactId>
-                    <version>${graalvm.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.js</groupId>
-                    <artifactId>js-scriptengine</artifactId>
-                    <version>${graalvm.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.tools</groupId>
-                    <artifactId>profiler</artifactId>
-                    <version>${graalvm.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.graalvm.tools</groupId>
-                    <artifactId>chromeinspector</artifactId>
-                    <version>${graalvm.version}</version>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <version>3.11.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <compilerArgument>-Xlint</compilerArgument>
+                    <release>21</release>
+                    <failOnWarning>true</failOnWarning>
+                    <showWarnings>true</showWarnings>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                        <arg>-Werror</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.1.2</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <polyglot.engine.WarnInterpreterOnly>false</polyglot.engine.WarnInterpreterOnly>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -219,9 +110,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>3.5.0</version>
                 <configuration>
-                    <source>8</source>
+                    <release>21</release>
                 </configuration>
                 <executions>
                     <execution>

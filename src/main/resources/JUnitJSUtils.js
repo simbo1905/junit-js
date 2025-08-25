@@ -1,12 +1,15 @@
-var assert = Packages.org.junit.Assert;
+var Assert = Java.type('org.junit.Assert');
+var ComparisonFailure = Java.type('org.junit.ComparisonFailure');
+var TestCase = Java.type('org.bitbucket.thinbus.junitjs.TestCase');
+var ArrayList = Java.type('java.util.ArrayList');
+
+var assert = Assert;
 var jsAssert = {};
-var TestCase = Packages.org.bitbucket.thinbus.junitjs.TestCase;
 
 jsAssert.assertIntegerEquals = function(a, b) {
 	if (a === b) return;
 	
-	
-	throw new Packages.org.junit.ComparisonFailure("Expected <" + a + "> but was <" + b + ">", a, b);
+	throw new ComparisonFailure("Expected <" + a + "> but was <" + b + ">", String(a), String(b));
 }
 
 jsAssert.assertEqualNoCoercion = jsAssert.assertIntegerEquals
@@ -14,23 +17,17 @@ jsAssert.assertEqualNoCoercion = jsAssert.assertIntegerEquals
 jsAssert.assertEqualCoercion = function(a, b) {
 	if (a == b) return;
 
-
-	throw new Packages.org.junit.ComparisonFailure("Expected <" + a + "> but was <" + b + ">", a, b);
+	throw new ComparisonFailure("Expected <" + a + "> but was <" + b + ">", String(a), String(b));
 }
 
-var nashornDetector = {
-	__noSuchMethod__:  function(name, arg0, arg1) {
-		return typeof arg1 != "undefined";
-	}
-}
-
-var isRhino = function() {
-	return !nashornDetector.detect('one','two');
+// GraalVM polyglot detection - we're always using GraalVM now
+var isGraalVM = function() {
+	return true;
 }
 
 var console = {
 	log: function(text) {
-		print(text + (isRhino() ? "\n" : ""));
+		print(text);
 	}
 }
 
@@ -81,10 +78,10 @@ var newStub = function() {
 };
 
 var tests = function(testObject) {
-	var testCases = new java.util.ArrayList();
+	var testCases = new ArrayList();
 	for (var name in testObject) {
 		if (testObject.hasOwnProperty(name)) {
-			testCases.add(new TestCase(name,testObject[name]));
+			testCases.add(new TestCase(name, testObject[name]));
 		}
 	}
 	return testCases;
