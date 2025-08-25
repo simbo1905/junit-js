@@ -1,0 +1,311 @@
+[MVNVM] Using maven: 3.9.9
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by org.fusesource.jansi.internal.JansiLoader in an unnamed module (file:/Users/consensussolutions/.mvnvm/apache-maven-3.9.9/lib/jansi-2.4.1.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper (file:/Users/consensussolutions/.mvnvm/apache-maven-3.9.9/lib/guava-33.2.1-jre.jar)
+WARNING: Please consider reporting this to the maintainers of class com.google.common.util.concurrent.AbstractFuture$UnsafeAtomicHelper
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+[INFO] Scanning for projects...
+[INFO] Inspecting build with total of 1 modules...
+[INFO] Installing Nexus Staging features:
+[INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
+[INFO] 
+[INFO] -------------------< org.bitbucket.thinbus:junit-js >-------------------
+[INFO] Building junit-js 2.0.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ junit-js ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ junit-js ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ junit-js ---
+[INFO] Copying 3 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ junit-js ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- surefire:3.1.2:test (default-test) @ junit-js ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junit4.JUnit4Provider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running org.bitbucket.thinbus.junitjs.examples.ExampleTestSuite
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.oracle.truffle.runtime.ModulesSupport in an unnamed module (file:/Users/consensussolutions/.m2/repository/org/graalvm/truffle/truffle-runtime/24.1.0/truffle-runtime-24.1.0.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by com.oracle.truffle.api.nodes.NodeClassImpl$NodeFieldData (file:/Users/consensussolutions/.m2/repository/org/graalvm/truffle/truffle-api/24.1.0/truffle-api-24.1.0.jar)
+WARNING: Please consider reporting this to the maintainers of class com.oracle.truffle.api.nodes.NodeClassImpl$NodeFieldData
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+One == One
+Running a failing test
+Running an equality fail test
+Hello World
+[ERROR] Tests run: 10, Failures: 3, Errors: 2, Skipped: 0, Time elapsed: 2.384 s <<< FAILURE! -- in org.bitbucket.thinbus.junitjs.examples.ExampleTestSuite
+[ERROR] js.ExampleTestOne.thisTestShouldFail -- Time elapsed: 0.001 s <<< FAILURE!
+java.lang.AssertionError
+	at org.junit.Assert.fail(Assert.java:87)
+	at org.junit.Assert.fail(Assert.java:96)
+	at com.oracle.truffle.host.HostMethodDesc$SingleMethod$MHBase.invokeHandle(HostMethodDesc.java:372)
+	at com.oracle.truffle.host.GuestToHostCodeCache$GuestToHostInvokeHandle.executeImpl(GuestToHostCodeCache.java:88)
+	at com.oracle.truffle.host.GuestToHostRootNode.execute(GuestToHostRootNode.java:80)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.api.impl.DefaultRuntimeAccessor$DefaultRuntimeSupport.callInlined(DefaultRuntimeAccessor.java:201)
+	at com.oracle.truffle.host.GuestToHostRootNode.guestToHostCall(GuestToHostRootNode.java:102)
+	at com.oracle.truffle.host.HostMethodDesc$SingleMethod$MHBase.invokeGuestToHost(HostMethodDesc.java:408)
+	at com.oracle.truffle.host.HostExecuteNode.doInvoke(HostExecuteNode.java:877)
+	at com.oracle.truffle.host.HostExecuteNode.doOverloadedCached(HostExecuteNode.java:291)
+	at com.oracle.truffle.host.HostExecuteNodeGen$Inlined.executeAndSpecialize(HostExecuteNodeGen.java:511)
+	at com.oracle.truffle.host.HostExecuteNodeGen$Inlined.execute(HostExecuteNodeGen.java:368)
+	at com.oracle.truffle.host.HostObject.invokeMember(HostObject.java:465)
+	at com.oracle.truffle.host.HostObjectGen$InteropLibraryExports$Cached.invokeMemberNode_AndSpecialize(HostObjectGen.java:7140)
+	at com.oracle.truffle.host.HostObjectGen$InteropLibraryExports$Cached.invokeMember(HostObjectGen.java:7126)
+	at com.oracle.truffle.api.interop.InteropLibrary$Asserts.invokeMember(InteropLibrary.java:3596)
+	at com.oracle.truffle.api.interop.InteropLibraryGen$CachedDispatch.invokeMember(InteropLibraryGen.java:8497)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode$ForeignInvokeNode.executeCall(JSFunctionCallNode.java:1548)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeAndSpecialize(JSFunctionCallNode.java:308)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeCall(JSFunctionCallNode.java:253)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode$InvokeNode.execute(JSFunctionCallNode.java:723)
+	at com.oracle.truffle.js.nodes.JavaScriptNode.executeVoid(JavaScriptNode.java:183)
+	at com.oracle.truffle.js.nodes.control.AbstractBlockNode.executeVoid(AbstractBlockNode.java:78)
+	at com.oracle.truffle.js.nodes.control.AbstractBlockNode.executeVoid(AbstractBlockNode.java:53)
+	at com.oracle.truffle.api.impl.DefaultBlockNode.executeVoid(DefaultBlockNode.java:73)
+	at com.oracle.truffle.js.nodes.control.AbstractBlockNode.executeVoid(AbstractBlockNode.java:68)
+	at com.oracle.truffle.js.nodes.control.VoidBlockNode.execute(VoidBlockNode.java:61)
+	at com.oracle.truffle.js.nodes.function.FunctionBodyNode.execute(FunctionBodyNode.java:70)
+	at com.oracle.truffle.js.nodes.function.FunctionRootNode.executeInRealm(FunctionRootNode.java:155)
+	at com.oracle.truffle.js.runtime.JavaScriptRealmBoundaryRootNode.execute(JavaScriptRealmBoundaryRootNode.java:96)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.api.impl.DefaultDirectCallNode.call(DefaultDirectCallNode.java:59)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode$DirectJSFunctionCacheNode.executeCall(JSFunctionCallNode.java:1330)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeAndSpecialize(JSFunctionCallNode.java:308)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeCall(JSFunctionCallNode.java:253)
+	at com.oracle.truffle.js.nodes.interop.JSInteropExecuteNode.doDefault(JSInteropExecuteNode.java:68)
+	at com.oracle.truffle.js.nodes.interop.JSInteropExecuteNodeGen.execute(JSInteropExecuteNodeGen.java:71)
+	at com.oracle.truffle.js.runtime.builtins.JSFunctionObject.execute(JSFunctionObject.java:145)
+	at com.oracle.truffle.js.runtime.builtins.JSFunctionObjectGen$InteropLibraryExports$Cached.execute(JSFunctionObjectGen.java:174)
+	at com.oracle.truffle.api.interop.InteropLibrary$Asserts.execute(InteropLibrary.java:3133)
+	at com.oracle.truffle.polyglot.PolyglotExecuteNode.doCached(PolyglotExecuteNode.java:127)
+	at com.oracle.truffle.polyglot.PolyglotExecuteNodeGen.executeImpl(PolyglotExecuteNodeGen.java:170)
+	at com.oracle.truffle.polyglot.PolyglotExecuteNode.execute(PolyglotExecuteNode.java:93)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandler$FunctionProxyNode.doCached(PolyglotFunctionProxyHandler.java:225)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandlerFactory$FunctionProxyNodeGen.executeImpl(PolyglotFunctionProxyHandlerFactory.java:73)
+	at com.oracle.truffle.polyglot.HostToGuestRootNode.execute(HostToGuestRootNode.java:124)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandler.invoke(PolyglotFunctionProxyHandler.java:151)
+	at jdk.proxy1/jdk.proxy1.$Proxy23.run(Unknown Source)
+	at org.bitbucket.thinbus.junitjs.JSRunner.run(JSRunner.java:67)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:316)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:240)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:214)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:155)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+	Suppressed: Attached Guest Language Frames (4)
+
+[ERROR] js.ExampleTestOne.testAnEqualityFail -- Time elapsed: 0 s <<< FAILURE!
+org.junit.ComparisonFailure: expected:<[One]> but was:<[Two]>
+	at org.junit.Assert.assertEquals(Assert.java:117)
+	at org.junit.Assert.assertEquals(Assert.java:146)
+	at com.oracle.truffle.host.HostMethodDesc$SingleMethod$MHBase.invokeHandle(HostMethodDesc.java:372)
+	at com.oracle.truffle.host.GuestToHostCodeCache$GuestToHostInvokeHandle.executeImpl(GuestToHostCodeCache.java:88)
+	at com.oracle.truffle.host.GuestToHostRootNode.execute(GuestToHostRootNode.java:80)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.api.impl.DefaultRuntimeAccessor$DefaultRuntimeSupport.callInlined(DefaultRuntimeAccessor.java:201)
+	at com.oracle.truffle.host.GuestToHostRootNode.guestToHostCall(GuestToHostRootNode.java:102)
+	at com.oracle.truffle.host.HostMethodDesc$SingleMethod$MHBase.invokeGuestToHost(HostMethodDesc.java:408)
+	at com.oracle.truffle.host.HostExecuteNode.doInvoke(HostExecuteNode.java:877)
+	at com.oracle.truffle.host.HostExecuteNode.doOverloadedCached(HostExecuteNode.java:291)
+	at com.oracle.truffle.host.HostExecuteNodeGen$Inlined.executeAndSpecialize(HostExecuteNodeGen.java:511)
+	at com.oracle.truffle.host.HostExecuteNodeGen$Inlined.execute(HostExecuteNodeGen.java:368)
+	at com.oracle.truffle.host.HostObject.invokeMember(HostObject.java:465)
+	at com.oracle.truffle.host.HostObjectGen$InteropLibraryExports$Cached.invokeMemberNode_AndSpecialize(HostObjectGen.java:7140)
+	at com.oracle.truffle.host.HostObjectGen$InteropLibraryExports$Cached.invokeMember(HostObjectGen.java:7126)
+	at com.oracle.truffle.api.interop.InteropLibrary$Asserts.invokeMember(InteropLibrary.java:3596)
+	at com.oracle.truffle.api.interop.InteropLibraryGen$CachedDispatch.invokeMember(InteropLibraryGen.java:8497)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode$ForeignInvokeNode.executeCall(JSFunctionCallNode.java:1548)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeAndSpecialize(JSFunctionCallNode.java:308)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeCall(JSFunctionCallNode.java:253)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode$InvokeNode.execute(JSFunctionCallNode.java:723)
+	at com.oracle.truffle.js.nodes.JavaScriptNode.executeVoid(JavaScriptNode.java:183)
+	at com.oracle.truffle.js.nodes.control.AbstractBlockNode.executeVoid(AbstractBlockNode.java:78)
+	at com.oracle.truffle.js.nodes.control.AbstractBlockNode.executeVoid(AbstractBlockNode.java:53)
+	at com.oracle.truffle.api.impl.DefaultBlockNode.executeVoid(DefaultBlockNode.java:73)
+	at com.oracle.truffle.js.nodes.control.AbstractBlockNode.executeVoid(AbstractBlockNode.java:68)
+	at com.oracle.truffle.js.nodes.control.VoidBlockNode.execute(VoidBlockNode.java:61)
+	at com.oracle.truffle.js.nodes.function.FunctionBodyNode.execute(FunctionBodyNode.java:70)
+	at com.oracle.truffle.js.nodes.function.FunctionRootNode.executeInRealm(FunctionRootNode.java:155)
+	at com.oracle.truffle.js.runtime.JavaScriptRealmBoundaryRootNode.execute(JavaScriptRealmBoundaryRootNode.java:96)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.api.impl.DefaultDirectCallNode.call(DefaultDirectCallNode.java:59)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode$DirectJSFunctionCacheNode.executeCall(JSFunctionCallNode.java:1330)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeAndSpecialize(JSFunctionCallNode.java:308)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeCall(JSFunctionCallNode.java:253)
+	at com.oracle.truffle.js.nodes.interop.JSInteropExecuteNode.doDefault(JSInteropExecuteNode.java:68)
+	at com.oracle.truffle.js.nodes.interop.JSInteropExecuteNodeGen.execute(JSInteropExecuteNodeGen.java:71)
+	at com.oracle.truffle.js.runtime.builtins.JSFunctionObject.execute(JSFunctionObject.java:145)
+	at com.oracle.truffle.js.runtime.builtins.JSFunctionObjectGen$InteropLibraryExports$Cached.execute(JSFunctionObjectGen.java:174)
+	at com.oracle.truffle.api.interop.InteropLibrary$Asserts.execute(InteropLibrary.java:3133)
+	at com.oracle.truffle.polyglot.PolyglotExecuteNode.doCached(PolyglotExecuteNode.java:127)
+	at com.oracle.truffle.polyglot.PolyglotExecuteNodeGen.executeImpl(PolyglotExecuteNodeGen.java:170)
+	at com.oracle.truffle.polyglot.PolyglotExecuteNode.execute(PolyglotExecuteNode.java:93)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandler$FunctionProxyNode.doCached(PolyglotFunctionProxyHandler.java:225)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandlerFactory$FunctionProxyNodeGen.executeImpl(PolyglotFunctionProxyHandlerFactory.java:73)
+	at com.oracle.truffle.polyglot.HostToGuestRootNode.execute(HostToGuestRootNode.java:124)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandler.invoke(PolyglotFunctionProxyHandler.java:151)
+	at jdk.proxy1/jdk.proxy1.$Proxy23.run(Unknown Source)
+	at org.bitbucket.thinbus.junitjs.JSRunner.run(JSRunner.java:67)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:316)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:240)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:214)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:155)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+	Suppressed: Attached Guest Language Frames (4)
+
+[ERROR] js.ExampleTestOne.failingIntegerComparison -- Time elapsed: 0.016 s <<< FAILURE!
+org.junit.ComparisonFailure: Expected <4> but was <5> expected:<[4]> but was:<[5]>
+	at com.oracle.truffle.host.HostMethodDesc$SingleMethod$MHBase.invokeHandle(HostMethodDesc.java:372)
+	at com.oracle.truffle.host.GuestToHostCodeCache$GuestToHostInvokeHandle.executeImpl(GuestToHostCodeCache.java:88)
+	at com.oracle.truffle.host.GuestToHostRootNode.execute(GuestToHostRootNode.java:80)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.api.impl.DefaultRuntimeAccessor$DefaultRuntimeSupport.callInlined(DefaultRuntimeAccessor.java:201)
+	at com.oracle.truffle.host.GuestToHostRootNode.guestToHostCall(GuestToHostRootNode.java:102)
+	at com.oracle.truffle.host.HostMethodDesc$SingleMethod$MHBase.invokeGuestToHost(HostMethodDesc.java:408)
+	at com.oracle.truffle.host.HostExecuteNode.doInvoke(HostExecuteNode.java:877)
+	at com.oracle.truffle.host.HostExecuteNode.doFixed(HostExecuteNode.java:140)
+	at com.oracle.truffle.host.HostExecuteNodeGen$Inlined.executeAndSpecialize(HostExecuteNodeGen.java:408)
+	at com.oracle.truffle.host.HostExecuteNodeGen$Inlined.execute(HostExecuteNodeGen.java:368)
+	at com.oracle.truffle.host.HostObject$Instantiate.doObjectCached(HostObject.java:1903)
+	at com.oracle.truffle.host.HostObjectGen$InteropLibraryExports$Cached.instantiateAndSpecialize(HostObjectGen.java:4042)
+	at com.oracle.truffle.host.HostObjectGen$InteropLibraryExports$Cached.instantiate(HostObjectGen.java:4013)
+	at com.oracle.truffle.api.interop.InteropLibrary$Asserts.instantiate(InteropLibrary.java:3162)
+	at com.oracle.truffle.api.interop.InteropLibraryGen$CachedDispatch.instantiate(InteropLibraryGen.java:8002)
+	at com.oracle.truffle.js.nodes.function.JSNewNode.doNewForeignObject(JSNewNode.java:210)
+	at com.oracle.truffle.js.nodes.function.JSNewNodeGen.executeAndSpecialize(JSNewNodeGen.java:233)
+	at com.oracle.truffle.js.nodes.function.JSNewNodeGen.execute(JSNewNodeGen.java:153)
+	at com.oracle.truffle.js.nodes.control.ThrowNode.execute(ThrowNode.java:101)
+	at com.oracle.truffle.js.nodes.binary.DualNode.execute(DualNode.java:116)
+	at com.oracle.truffle.js.nodes.control.ReturnTargetNode$FrameReturnTargetNode.execute(ReturnTargetNode.java:124)
+	at com.oracle.truffle.js.nodes.control.AbstractBlockNode.executeGeneric(AbstractBlockNode.java:83)
+	at com.oracle.truffle.js.nodes.control.AbstractBlockNode.executeGeneric(AbstractBlockNode.java:53)
+	at com.oracle.truffle.api.impl.DefaultBlockNode.executeGeneric(DefaultBlockNode.java:65)
+	at com.oracle.truffle.js.nodes.control.AbstractBlockNode.execute(AbstractBlockNode.java:73)
+	at com.oracle.truffle.js.nodes.function.FunctionBodyNode.execute(FunctionBodyNode.java:70)
+	at com.oracle.truffle.js.nodes.function.FunctionRootNode.executeInRealm(FunctionRootNode.java:155)
+	at com.oracle.truffle.js.runtime.JavaScriptRealmBoundaryRootNode.execute(JavaScriptRealmBoundaryRootNode.java:96)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.api.impl.DefaultDirectCallNode.call(DefaultDirectCallNode.java:59)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode$DirectJSFunctionCacheNode.executeCall(JSFunctionCallNode.java:1330)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeAndSpecialize(JSFunctionCallNode.java:308)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeCall(JSFunctionCallNode.java:253)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode$InvokeNode.execute(JSFunctionCallNode.java:723)
+	at com.oracle.truffle.js.nodes.control.DiscardResultNode.execute(DiscardResultNode.java:80)
+	at com.oracle.truffle.js.nodes.function.FunctionBodyNode.execute(FunctionBodyNode.java:70)
+	at com.oracle.truffle.js.nodes.function.FunctionRootNode.executeInRealm(FunctionRootNode.java:155)
+	at com.oracle.truffle.js.runtime.JavaScriptRealmBoundaryRootNode.execute(JavaScriptRealmBoundaryRootNode.java:96)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.api.impl.DefaultIndirectCallNode.call(DefaultIndirectCallNode.java:53)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode$GenericJSFunctionCacheNode.executeCall(JSFunctionCallNode.java:1688)
+	at com.oracle.truffle.js.nodes.function.JSFunctionCallNode.executeCall(JSFunctionCallNode.java:249)
+	at com.oracle.truffle.js.nodes.interop.JSInteropExecuteNode.doDefault(JSInteropExecuteNode.java:68)
+	at com.oracle.truffle.js.nodes.interop.JSInteropExecuteNodeGen.execute(JSInteropExecuteNodeGen.java:71)
+	at com.oracle.truffle.js.runtime.builtins.JSFunctionObject.execute(JSFunctionObject.java:145)
+	at com.oracle.truffle.js.runtime.builtins.JSFunctionObjectGen$InteropLibraryExports$Cached.execute(JSFunctionObjectGen.java:174)
+	at com.oracle.truffle.api.interop.InteropLibrary$Asserts.execute(InteropLibrary.java:3133)
+	at com.oracle.truffle.polyglot.PolyglotExecuteNode.doCached(PolyglotExecuteNode.java:127)
+	at com.oracle.truffle.polyglot.PolyglotExecuteNodeGen.executeImpl(PolyglotExecuteNodeGen.java:170)
+	at com.oracle.truffle.polyglot.PolyglotExecuteNode.execute(PolyglotExecuteNode.java:93)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandler$FunctionProxyNode.doCached(PolyglotFunctionProxyHandler.java:225)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandlerFactory$FunctionProxyNodeGen.executeImpl(PolyglotFunctionProxyHandlerFactory.java:73)
+	at com.oracle.truffle.polyglot.HostToGuestRootNode.execute(HostToGuestRootNode.java:124)
+	at com.oracle.truffle.api.impl.DefaultCallTarget.call(DefaultCallTarget.java:104)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandler.invoke(PolyglotFunctionProxyHandler.java:151)
+	at jdk.proxy1/jdk.proxy1.$Proxy23.run(Unknown Source)
+	at org.bitbucket.thinbus.junitjs.JSRunner.run(JSRunner.java:67)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:316)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:240)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:214)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:155)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+	Suppressed: Attached Guest Language Frames (5)
+
+[ERROR] js.TestFileUnderTest.doesSomethingImportant_ThisTestShouldFail -- Time elapsed: 0.007 s <<< ERROR!
+TypeError: <this>.collaborator.importantFunction is not a function
+	at <js> doesSomethingImportant(Unnamed:13:175-227)
+	at <js> doesSomethingImportant_ThisTestShouldFail(Unnamed:13:313-346)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandler.invoke(PolyglotFunctionProxyHandler.java:151)
+	at jdk.proxy1/jdk.proxy1.$Proxy23.run(Unknown Source)
+	at org.bitbucket.thinbus.junitjs.JSRunner.run(JSRunner.java:67)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:316)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:240)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:214)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:155)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+
+[ERROR] js.TestFileUnderTest.doesSomethingImportant_ShouldDoSomethingImportant -- Time elapsed: 0.003 s <<< ERROR!
+TypeError: <this>.collaborator.importantFunction is not a function
+	at <js> doesSomethingImportant(Unnamed:13:175-227)
+	at <js> doesSomethingImportant_ShouldDoSomethingImportant(Unnamed:22:509-542)
+	at com.oracle.truffle.polyglot.PolyglotFunctionProxyHandler.invoke(PolyglotFunctionProxyHandler.java:151)
+	at jdk.proxy1/jdk.proxy1.$Proxy23.run(Unknown Source)
+	at org.bitbucket.thinbus.junitjs.JSRunner.run(JSRunner.java:67)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:316)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:240)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:214)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:155)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   Expected <4> but was <5> expected:<[4]> but was:<[5]>
+[ERROR]   expected:<[One]> but was:<[Two]>
+[ERROR]   null
+[ERROR] Errors: 
+[ERROR]   TypeError: <this>.collaborator.importantFunction is not a function
+[ERROR]   TypeError: <this>.collaborator.importantFunction is not a function
+[INFO] 
+[ERROR] Tests run: 10, Failures: 3, Errors: 2, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  6.137 s
+[INFO] Finished at: 2025-08-25T19:19:31+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.1.2:test (default-test) on project junit-js: There are test failures.
+[ERROR] 
+[ERROR] Please refer to /Users/Shared/junit-js/target/surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
