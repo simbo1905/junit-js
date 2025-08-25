@@ -5,3 +5,4 @@ target/
 
 .openhands/
 .env
+build.log
