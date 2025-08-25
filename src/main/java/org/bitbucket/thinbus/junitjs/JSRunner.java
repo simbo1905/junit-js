@@ -2,19 +2,18 @@ package org.bitbucket.thinbus.junitjs;
 
 import static java.util.Arrays.asList;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
-import org.apache.commons.io.IOUtils;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.HostAccess;
+import org.graalvm.polyglot.PolyglotException;
+import org.graalvm.polyglot.Value;
 import org.junit.runner.Description;
 import org.junit.runner.Runner;
 import org.junit.runner.manipulation.Filter;
@@ -27,16 +26,16 @@ import org.junit.runner.notification.RunNotifier;
 
 public class JSRunner extends Runner implements Filterable, Sortable  {
 
-	static {
-		// https://medium.com/graalvm/oracle-graalvm-announces-support-for-nashorn-migration-c04810d75c1f
-		System.setProperty("polyglot.js.nashorn-compat", "true");
-	}
-
 	private List<TestClass> tests;
 	private final Class<?> cls;
+	private Context context;
 
 	public JSRunner(Class<?> cls) {
 		this.cls = cls;
+		this.context = Context.newBuilder("js")
+				.allowHostAccess(HostAccess.ALL)
+				.allowHostClassLookup(s -> true)
+				.build();
 		List<String> testNames = asList(cls.getAnnotation(Tests.class).value());
 		this.tests = findJSTests(testNames);
 	}
@@ -58,81 +57,82 @@ public class JSRunner extends Runner implements Filterable, Sortable  {
 
 	@Override
 	public void run(RunNotifier notifier) {
-		for (TestClass testClass : tests) {
-			List<TestCase> tests = testClass.testCases;
-			for (TestCase test : tests) {
-				Description desc = Description.createTestDescription(testClass.junitName(), test.name);
-				notifier.fireTestStarted(desc);
-				try {
-					test.testCase.run();
-					notifier.fireTestFinished(desc);
-				} catch (Exception | Error e) {
-					notifier.fireTestFailure(new Failure(desc, bestException(e)));
+		try {
+			for (TestClass testClass : tests) {
+				List<TestCase> tests = testClass.testCases;
+				for (TestCase test : tests) {
+					Description desc = Description.createTestDescription(testClass.junitName(), test.name);
+					notifier.fireTestStarted(desc);
+					try {
+						test.testCase.run();
+						notifier.fireTestFinished(desc);
+					} catch (Exception | Error e) {
+						notifier.fireTestFailure(new Failure(desc, bestException(e)));
+					}
 				}
+			}
+		} finally {
+			// Close the context after all tests are done
+			if (context != null) {
+				context.close();
 			}
 		}
 	}
 	
 	private List<TestClass> findJSTests(List<String> testNames) {
-		
 		try {
-			ScriptEngine engine = getBestJavaScriptEngine();
-			loadTestUtilities(engine);
+			loadTestUtilities(context);
 			List<TestClass> testClasses = new ArrayList<TestClass>();
 			for (String name : testNames) {
-				testClasses.add(new TestClass(name, load(engine, name)));
+				testClasses.add(new TestClass(name, load(context, name)));
 			}
 			return testClasses;
-			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private void loadTestUtilities(ScriptEngine engine) throws ScriptException,IOException {
-		engine.eval(IOUtils.toString(JSRunner.class.getResource("/JUnitJSUtils.js")));
+	private void loadTestUtilities(Context context) throws IOException {
+		try (InputStream is = JSRunner.class.getResourceAsStream("/JUnitJSUtils.js")) {
+			String utilsScript = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+			context.eval("js", utilsScript);
+		}
 	}
 
 	public static class Loader {
 		
-		private final ScriptEngine rhino;
+		private final Context context;
 
-		public Loader(ScriptEngine rhino) {
-			this.rhino = rhino;
+		public Loader(Context context) {
+			this.context = context;
 		}
 		
 		public void load(String filename) {
 			try {
-				rhino.eval(new FileReader(filename));
-			} catch (FileNotFoundException | ScriptException e) {
+				Path filePath = Paths.get(filename);
+				String script = Files.readString(filePath, StandardCharsets.UTF_8);
+				context.eval("js", script);
+			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 		}
 	}
 	
-	private ScriptEngine getBestJavaScriptEngine() throws ScriptException {
-		ScriptEngineManager factory = new ScriptEngineManager();
-
-		ScriptEngine graal = factory.getEngineByName("graal.js");
-
-		if ( graal != null ) return graal;
-
-		ScriptEngine nashorn = factory.getEngineByName("nashorn");
-		
-		if (nashorn != null) return nashorn;
-		
-		final ScriptEngine rhino = factory.getEngineByName("JavaScript");
-		
-		rhino.put("Loader", new Loader(rhino));
-		rhino.eval("function load(filename) { Loader.load(filename); }");
-		
-		return rhino; 
+	private void setupJavaScriptEnvironment(Context context) {
+		// Set up the load function for JavaScript files
+		Value bindings = context.getBindings("js");
+		bindings.putMember("Loader", new Loader(context));
+		context.eval("js", "function load(filename) { Loader.load(filename); }");
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<TestCase> load(ScriptEngine engine, String name) throws ScriptException, IOException{
-		InputStream s = JSRunner.class.getResourceAsStream("/" + name);
-		return (List<TestCase>) engine.eval(IOUtils.toString(s));
+	private List<TestCase> load(Context context, String name) throws IOException {
+		setupJavaScriptEnvironment(context);
+		try (InputStream s = JSRunner.class.getResourceAsStream("/" + name)) {
+			String script = new String(s.readAllBytes(), StandardCharsets.UTF_8);
+			Value result = context.eval("js", script);
+			return result.as(List.class);
+		}
         }
 
 	public void sort(Sorter sorter) {
@@ -144,34 +144,17 @@ public class JSRunner extends Runner implements Filterable, Sortable  {
 	}
 
 	private Throwable bestException(Throwable e) {
-		if (nashornException(e))
-			return e.getCause() != null ? e.getCause() : e;
-		if (rhinoException(e)) {
-			return extractActualExceptionFromRhino(e);
+		if (graalvmException(e)) {
+			PolyglotException pe = (PolyglotException) e;
+			if (pe.isHostException()) {
+				return pe.asHostException();
+			}
 		}
 		return e;
 	}
 
-	private boolean rhinoException(Throwable e) {
-		return e.getClass().getSimpleName().contains("JavaScript");
-	}
-
-	private boolean nashornException(Throwable e) {
-		return e.getClass().getSimpleName().contains("ECMA");
-	}
-
-	private Throwable extractActualExceptionFromRhino(Throwable e) {
-		try {
-			Field f = e.getClass().getDeclaredField("value");
-			f.setAccessible(true);
-			Object javascriptWrapper = f.get(e);
-			Field javaThrowable = javascriptWrapper.getClass().getDeclaredField("javaObject");
-			javaThrowable.setAccessible(true);
-			Throwable t = (Throwable) javaThrowable.get(javascriptWrapper);
-			return t;
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e1) {
-			throw new RuntimeException(e);
-		}
+	private boolean graalvmException(Throwable e) {
+		return e instanceof PolyglotException;
 	}
 	
 }

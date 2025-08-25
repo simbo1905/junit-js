@@ -4,3 +4,5 @@ junit-js.iml
 target/
 
 .openhands/
+.env
+build.log
