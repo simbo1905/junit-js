@@ -6,3 +6,4 @@ target/
 .openhands/
 .env
 build.log
+.vscode/

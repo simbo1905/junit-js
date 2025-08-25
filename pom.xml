@@ -7,7 +7,7 @@
     <version>2.0.0</version>
     <name>junit-js</name>
     <url>https://bitbucket.org/thinbus/junit-js</url>
-    <description>Benji Weber's JUnit Runner for Javascript Tests using GraalVM, Nashorn or Rhino</description>
+    <description>JUnit Runner for Javascript Tests in the JVM using GraalVM JavaScript support</description>
     <licenses>
         <license>
             <name>MIT</name>
@@ -23,8 +23,8 @@
         </developer>
         <developer>
             <name>Simon Massey</name>
-            <email>simon_massey@hotmail.com</email>
-            <organization>spouse</organization>
+            <email>322608+simbo1905@users.noreply.github.com</email>
+            <organization>N/A</organization>
             <organizationUrl>https://bitbucket.org/simon_massey</organizationUrl>
         </developer>
     </developers>
@@ -35,8 +35,6 @@
         <tag>1.0.0</tag>
     </scm>
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.13.2</junit.version>
