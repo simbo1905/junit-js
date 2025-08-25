@@ -2,3 +2,5 @@
 .idea/
 junit-js.iml
 target/
+
+.openhands/
