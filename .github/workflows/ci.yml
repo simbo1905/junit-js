@@ -42,9 +42,16 @@ jobs:
           exit 1
         fi
         
-        # Check that we ran the expected number of JavaScript tests (10)
-        if ! grep -q "Tests run: 10" build.log; then
-          echo "ERROR: Expected 'Tests run: 10' not found - wrong number of JavaScript tests executed!"
+        # Check that we ran the expected number of JavaScript tests (5)
+        if ! grep -q "Tests run: 5.*ExampleTestSuite" build.log; then
+          echo "ERROR: Expected 'Tests run: 5' for ExampleTestSuite not found - wrong number of JavaScript tests executed!"
+          grep "Tests run:" build.log || echo "No 'Tests run:' found at all"
+          exit 1
+        fi
+        
+        # Check total test count (11 total: 5 JS + 6 JUnit 5)
+        if ! grep -q "Tests run: 11, Failures: 0, Errors: 0, Skipped: 0" build.log; then
+          echo "ERROR: Expected total 'Tests run: 11' not found - wrong total test count!"
           grep "Tests run:" build.log || echo "No 'Tests run:' found at all"
           exit 1
         fi
@@ -74,6 +81,7 @@ jobs:
         
         echo "✅ SUCCESS: Both JUnit 4 JavaScript and JUnit 5 Java tests are running correctly"
         echo "✅ Found expected JavaScript console output: 'One == One', 'Hello World'"  
-        echo "✅ Found expected JavaScript test count: 'Tests run: 10'"
+        echo "✅ Found expected JavaScript test count: 'Tests run: 5' for ExampleTestSuite"
+        echo "✅ Found expected total test count: 'Tests run: 11' (5 JS + 6 JUnit 5)"
         echo "✅ Found expected JUnit 5 test execution and compatibility verification"
         echo "✅ Both JUnit Jupiter and JUnit Vintage engines are active"

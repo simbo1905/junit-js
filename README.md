@@ -5,10 +5,11 @@ Copyright (c) 2015, 2019, 2025 Simon Massey
 
 This was originallly a fork of https://github.com/benjiman/junit-js to get it up onto maven central. Yet that was based on Rhino and Nashorn on Java 8. It has now been upgraded to Java 21 on GraalVM to that JavaScript or EMCAScript can be tested against Java. 
 
-## Breaking Changes in 2.0.0
+## Breaking Changes in 3.0.0
 
-- **Java 21 minimum requirement** - leverages modern JVM features and GraalVM Polyglot API
+- **JUnit 5 compatibility** - upgraded to JUnit 5 with vintage mode support for side-by-side compatibility
 - **Enhanced compiler warnings** - all warnings now treated as errors for improved code quality
+- **Modernized test infrastructure** - supports both JUnit 4 JavaScript tests and modern JUnit 5 Java tests
 
 ## Maven Dependency
 
@@ -16,7 +17,7 @@ This was originallly a fork of https://github.com/benjiman/junit-js to get it up
 <dependency>
     <groupId>org.bitbucket.thinbus</groupId>
     <artifactId>junit-js</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
@@ -92,3 +93,38 @@ The file `JUnitJSUtils.js` is automatically loaded into each test script context
 - `newStub()` - creates mock functions that record method invocations and parameters
 
 See `TestFileUnderTest.js` for examples of using the stubbing functionality.
+
+## JUnit 5 Compatibility
+
+Version 3.0.0 introduces full JUnit 5 compatibility while maintaining backward compatibility with existing JUnit 4 JavaScript tests through JUnit Vintage engine:
+
+- **Side-by-side execution** - JUnit 4 JavaScript tests and JUnit 5 Java tests run together
+- **Modern test features** - supports JUnit 5 annotations, nested tests, and advanced assertions
+- **Automatic engine detection** - Maven Surefire automatically detects and runs both engines
+
+Example JUnit 5 test alongside JavaScript tests:
+
+```java
+@ExtendWith(MockitoExtension.class)
+class ModernJavaTest {
+    
+    @Test
+    @DisplayName("JUnit 5 compatibility verification")
+    void verifyJUnit5Compatibility() {
+        // Modern JUnit 5 assertions
+        assertAll("JUnit 5 compatibility",
+            () -> assertThat("junit-js framework").hasSize(24),
+            () -> assertThat("junit-js framework".split(" ")).hasSize(2)
+        );
+    }
+    
+    @Nested
+    @DisplayName("Nested test examples")
+    class NestedTests {
+        @Test
+        void nestedTestExample() {
+            assertTrue(true, "Nested tests work perfectly");
+        }
+    }
+}
+```
