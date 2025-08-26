@@ -49,9 +49,9 @@ jobs:
           exit 1
         fi
         
-        # Check total test count (11 total: 5 JS + 6 JUnit 5)
-        if ! grep -q "Tests run: 11, Failures: 0, Errors: 0, Skipped: 0" build.log; then
-          echo "ERROR: Expected total 'Tests run: 11' not found - wrong total test count!"
+        # Check total test count (31 total: 5 JS + 6 JUnit 5 + 4 GraalVM debug + 16 GraalVM crypto)
+        if ! grep -q "Tests run: 31, Failures: 0, Errors: 0, Skipped: 0" build.log; then
+          echo "ERROR: Expected total 'Tests run: 31' not found - wrong total test count!"
           grep "Tests run:" build.log || echo "No 'Tests run:' found at all"
           exit 1
         fi
@@ -81,9 +81,41 @@ jobs:
           exit 1
         fi
         
-        echo "✅ SUCCESS: Both JUnit 4 JavaScript and JUnit 5 Java tests are running correctly"
+        # Verify GraalVM tests are running
+        echo "Checking GraalVM tests..."
+        if ! grep -q "Tests run: 16.*GraalVMNodeJSCryptoJSTest" build.log; then
+          echo "ERROR: Expected 'Tests run: 16' for GraalVMNodeJSCryptoJSTest not found - GraalVM crypto tests may not be running!"
+          grep "Tests run:" build.log || echo "No 'Tests run:' found at all"
+          exit 1
+        fi
+        
+        # Check for GraalVM crypto test output
+        if ! grep -q "✓ Basic SHA256 test passed" build.log; then
+          echo "ERROR: GraalVM SHA256 test output not found - GraalVM crypto tests may not be running!"
+          exit 1
+        fi
+        
+        if ! grep -q "✓ Random hex test passed" build.log; then
+          echo "ERROR: GraalVM random test output not found - GraalVM crypto tests may not be running!"
+          exit 1
+        fi
+        
+        if ! grep -q "✓ Password hashing with salt test passed" build.log; then
+          echo "ERROR: GraalVM combined crypto test output not found - GraalVM crypto tests may not be running!"
+          exit 1
+        fi
+        
+        # Check for debug GraalVM tests
+        if ! grep -q "DEBUG: Basic GraalVM JavaScript execution test completed successfully" build.log; then
+          echo "ERROR: GraalVM basic debug test output not found!"
+          exit 1
+        fi
+        
+        echo "✅ SUCCESS: JUnit 4 JavaScript, JUnit 5 Java, and GraalVM tests are all running correctly"
         echo "✅ Found expected JavaScript console output: 'One == One', 'Hello World'"  
         echo "✅ Found expected JavaScript test count: 'Tests run: 5' for ExampleTestSuite"
-        echo "✅ Found expected total test count: 'Tests run: 11' (5 JS + 6 JUnit 5)"
+        echo "✅ Found expected GraalVM crypto test count: 'Tests run: 16' for GraalVMNodeJSCryptoJSTest"
+        echo "✅ Found expected total test count: 'Tests run: 31' (5 JS + 6 JUnit 5 + 4 GraalVM debug + 16 GraalVM crypto)"
         echo "✅ Found expected JUnit 5 test execution and compatibility verification"
+        echo "✅ Found expected GraalVM crypto functionality: SHA256, random generation, combined operations"
         echo "✅ JUnit Platform Provider detected - JUnit 5 support is active"
